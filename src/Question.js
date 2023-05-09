@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Question({ question, showAnswers }) {
   const [isShowingAnswers, setIsShowingAnswers] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
   const isOptionCorrect = (optionIndex) => {
     return (
@@ -12,26 +12,36 @@ function Question({ question, showAnswers }) {
 
   const handleToggleAnswers = () => {
     setIsShowingAnswers((prevIsShowingAnswers) => !prevIsShowingAnswers);
-    setSelectedOption(null);
+    setSelectedOptions([]);
   };
 
   const handleOptionSelect = (optionIndex) => {
     const isCorrect = question.options[optionIndex].answer;
-    setSelectedOption({
-      index: optionIndex,
-      showAnswer: true && !showAnswers,
-      correct: isCorrect,
-    });
+    const newSelectedOptions = [
+      ...selectedOptions,
+      {
+        index: optionIndex,
+        showAnswer: true && !showAnswers,
+        correct: isCorrect,
+      },
+    ];
+    setSelectedOptions(newSelectedOptions);
 
     if (!isCorrect && !showAnswers) {
       setTimeout(() => {
-        setSelectedOption((prevSelectedOption) => ({
-          ...prevSelectedOption,
-          showAnswer: false,
-        }));
+        setSelectedOptions((prevSelectedOptions) =>
+          prevSelectedOptions.filter(
+            (selectedOption) => selectedOption.index !== optionIndex
+          )
+        );
       }, 500);
     }
   };
+
+  useEffect(() => {
+    setSelectedOptions([]);
+    setIsShowingAnswers(false);
+  }, [showAnswers]);
 
   return (
     <div key={`question-${question.id}`}>
@@ -42,8 +52,12 @@ function Question({ question, showAnswers }) {
             key={`question-${question.id}-option-${key}`}
             className={[
               isOptionCorrect(key) ? "correct" : "",
-              selectedOption?.index === key && selectedOption?.showAnswer
-                ? selectedOption?.correct
+              selectedOptions.some(
+                (option) => option.index === key && option.showAnswer
+              )
+                ? selectedOptions.find(
+                    (option) => option.index === key && option.showAnswer
+                  ).correct
                   ? "correct"
                   : "incorrect"
                 : "",
