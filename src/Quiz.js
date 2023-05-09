@@ -1,17 +1,19 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Question from "./Question";
+import { toggleAnswers, setSearchQuery } from "./store/quizSlice";
 
 function Quiz(props) {
   const { questions } = props;
-  const [showAnswers, setShowAnswers] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const dispatch = useDispatch();
+  const { showAnswers, searchQuery } = useSelector((state) => state.quiz);
 
   const handleToggleAnswers = () => {
-    setShowAnswers((prevShowAnswers) => !prevShowAnswers);
+    dispatch(toggleAnswers());
   };
 
   const handleSearchQueryChange = (event) => {
-    setSearchQuery(event.target.value);
+    dispatch(setSearchQuery(event.target.value));
   };
 
   return (

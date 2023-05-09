@@ -102,6 +102,9 @@ ol li:hover {
 .correct {
   background-color: #8fd3f4 !important;
 }
+.incorrect {
+  background-color: #fa848480 !important;
+}
 .progress-bar {
   background-color: #ddd;
   border-radius: 5px;
