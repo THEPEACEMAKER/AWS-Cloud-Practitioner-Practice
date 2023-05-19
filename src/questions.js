@@ -8218,6 +8218,7 @@ const questions = [
       {
         value:
           "An IAM user is uniquely associated with only one person, however a role is intended to be assumable by anyone who needs it.",
+        answer: 1,
       },
       {
         value:
