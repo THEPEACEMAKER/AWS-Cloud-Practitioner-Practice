@@ -13094,16 +13094,17 @@ const questions = [
       },
       {
         value: "Patching of operating systems.",
+        answer: 1,
       },
       {
         value: "Patching of the underlying hypervisor.",
-        answer: 1,
       },
       {
         value: "Physical security of data centers.",
       },
       {
         value: "Configuration of the security group.",
+        answer: 1,
       },
     ],
     tags: [],
